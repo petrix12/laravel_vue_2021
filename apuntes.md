@@ -64,14 +64,7 @@
     + $ npm run dev
 9. Ejecutar las migraciones:
     + $ php artisan migrate
-10. ddd
-
-
-
-
-
-
-11. Commit Nota 03:
+10. Commit Nota 03:
     + $ git add .
     + $ git commit -m "Commit 03: Instalar laravel y el sistema de autenticación"
     + $ git push -u origin main
