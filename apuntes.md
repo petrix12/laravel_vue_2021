@@ -70,8 +70,21 @@
     + $ git push -u origin main
 
 ### Video 04. Instalar Toastr y aprender a usarlo
-
-
++ [codeseven.github.io/toastr](https://codeseven.github.io/toastr)
+1. Descargar Toastr en formato zip en https://codeseven.github.io/toastr.
+2. Descomprimir la descarga en **public\libreria\toastr**.
+3. Modificar la plantilla **resources\views\layouts\app.blade.php** para referenciar los estilos y script de Toastr:
+    ```php
+    ```
+    + Para obtener el script de **jQuery Core 3.4.1** ir a: https://releases.jquery.com/jquery/
+4. Para proba Toastr introduzca el siguiente comando en la consola del navegador en donde se esta ejecutando la aplicación:
+    + > toastr.error('Necesita digitar un valor', 'Error')
+    + **Nota 1**: al ejecutar esta instrucción se deberá mostrar un mensaje en la aplicación.
+    + **Nota 2**: para ver ejemplos del uso de Toastr ir a: https://codeseven.github.io/toastr/demo.html
+5. Commit Nota 04:
+    + $ git add .
+    + $ git commit -m "Commit 04: Instalar Toastr y aprender a usarlo"
+    + $ git push -u origin main
 
 ### Video 05. Instalar sweetalert2 y aprender a usarlo
 ### Video 06. Crear Modelo, migración, controlador y rutas API
