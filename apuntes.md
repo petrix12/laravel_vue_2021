@@ -17,7 +17,7 @@
 ## Contenido del curso
 
 ### Video 01. Vista Previa
-
++ **Contenido**: Presentación de la aplicación a desarrollar.
 1. Commit Video 01:
     + $ git add .
     + $ git commit -m "Commit 01: Vista Previa"
