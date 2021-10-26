@@ -29,6 +29,9 @@
     <!-- Toastr -->
     <link href="{{ asset('libreria/toastr/toastr.scss') }}" rel="stylesheet"/>
     <script src="{{ asset('libreria/toastr/toastr.js') }}"></script>
+
+    <!-- sweetalert2 -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div id="app">

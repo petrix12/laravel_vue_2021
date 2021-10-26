@@ -75,6 +75,21 @@
 2. Descomprimir la descarga en **public\libreria\toastr**.
 3. Modificar la plantilla **resources\views\layouts\app.blade.php** para referenciar los estilos y script de Toastr:
     ```php
+    ≡
+    <head>
+        ≡
+        <!-- jQuery Core 3.4.1 -->
+        <script
+            src="https://code.jquery.com/jquery-3.4.1.js"
+            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+            crossorigin="anonymous">
+        </script>
+
+        <!-- Toastr -->
+        <link href="{{ asset('libreria/toastr/toastr.scss') }}" rel="stylesheet"/>
+        <script src="{{ asset('libreria/toastr/toastr.js') }}"></script>
+    </head>
+    ≡
     ```
     + Para obtener el script de **jQuery Core 3.4.1** ir a: https://releases.jquery.com/jquery/
 4. Para proba Toastr introduzca el siguiente comando en la consola del navegador en donde se esta ejecutando la aplicación:
@@ -87,7 +102,26 @@
     + $ git push -u origin main
 
 ### Video 05. Instalar sweetalert2 y aprender a usarlo
++ https://sweetalert2.github.io
+1. Modificar la plantilla **resources\views\layouts\app.blade.php** para referenciar los script de sweetalert2:
+    ```php
+    ≡
+    <head>
+        ≡
+        <!-- sweetalert2 -->
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </head>
+    ≡
+    ```
+2. Commit Nota 05:
+    + $ git add .
+    + $ git commit -m "Commit 05: Instalar sweetalert2 y aprender a usarlo"
+    + $ git push -u origin main
+
 ### Video 06. Crear Modelo, migración, controlador y rutas API
+
+
+
 ### Video 07. Instalar vue y axios
 ### Video 08. Nuevo registro
 ### Video 09. Eliminar registro
