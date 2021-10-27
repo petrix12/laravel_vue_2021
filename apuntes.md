@@ -1,6 +1,7 @@
 # Crea un CRUD con Laravel, Sweetalert2, Toastr, Vuejs y Axios
-+ [URL del curso en Udemy](https://github.com/petrix12/laravel_vue_2021.git)
-+ [URL del repositorio en GitHub]()
++ [URL del curso en Udemy](https://www.udemy.com/course/crea-un-crud-con-laravel-sweetalert2-toastr-vuejs-y-axios)
++ [URL del repositorio en GitHub](https://github.com/petrix12/laravel_vue_2021.git)
++ [URL del repositorio GitHub del autor](https://github.com/jhonatanfdez/crudlstva)
 
 ## Antes de iniciar:
 1. Crear proyecto en la página de [GitHub](https://github.com) con el nombre: **laravel_vue_2021**.
@@ -109,7 +110,7 @@
     <head>
         ≡
         <!-- sweetalert2 -->
-        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     </head>
     ≡
     ```
@@ -204,7 +205,7 @@
         <script src="{{ asset('libreria/toastr/toastr.js') }}"></script>
 
         <!-- sweetalert2 -->
-        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
         <!-- Vue2 -->
         <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
@@ -292,10 +293,161 @@
     + $ git push -u origin main
 
 ### Video 08. Nuevo registro
++ https://getbootstrap.com/docs/4.6/components/buttons/#button-tags
++ https://sweetalert2.github.io
+1. Modificar la vista **resources\views\home.blade.php** para agregar los botones para el CRUD:
+    ```php
+    @extends('layouts.app')
 
+    @section('content')
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">{{ __('Dashboard') }}</div>
 
+                    <div class="card-body">
+                        ≡
+                        <button type="button" class="btn btn-outline-primary float-right mb-3" @click="NuevoDato()">Nuevo</button>
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    ≡
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="dato in datos">
+                                    ≡
+                                    <td>
+                                        <button type="button" class="btn btn-outline-info">Editar</button>
+                                        <button type="button" class="btn btn-outline-danger">Eliminar</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endsection
+    ```
+2. Modificar el componente **public\js\vue.js** para agreagar el método **NuevoDato**:
+    ```js
+    var app = new Vue({
+        el: '#app',
+        data: {
+            ≡
+        },
+        methods:{
+            getDatos(){
+                ≡
+            },
+            NuevoDato(){
+                console.log('Nuevo dato')
+
+                Swal.mixin({
+                    confirmButtonText: 'Next &rarr;',
+                    showCancelButton: true,
+                    progressSteps: ['1', '2', '3']
+                }).queue([
+                    {
+                        title: 'Digita tu nombre completo',
+                        text:  'Nombre y apellido',
+                        input: 'text',
+                        inputValidator: (value) => {
+                            if (!value) {
+                                toastr.error('Debes digitar un nombre','Error')
+                                return ' '
+                            }
+                        }
+                    },
+                    {
+                        title: 'Selecciona la posición',
+                        text:  'Posición de este empleado',
+                        input: 'select',
+                        inputOptions: {
+                            Auditor: 'Auditor',
+                            Soporte: 'Soporte',
+                            Seguridad: 'Seguridad'                      
+                        },
+                        inputPlaceholder: 'Selecciona una posición',
+                        inputValidator: (value) => {
+                            if (!value) {
+                            toastr.error('Necesitas seleccionar una opción','Error')
+                            return ' '
+                            }
+                        }
+                    },
+                    {
+                        title: 'Escribe el salario de este empleado',
+                        text:  'Este campo acepta decimales',
+                        input: 'number',
+                        inputAttributes: {
+                            min: 4,                        
+                            step: 0.01
+                        },
+                        inputValidator: (value) => {
+                            if (!value) {
+                            toastr.error('Debes escribir un salario','Error')  
+                            return ' '
+                            }
+                        }
+                    }  
+                ]).then( async  (result) => {
+                    if (result.value) {
+
+                    datos= {
+                        nombre   : result.value[0],
+                        posicion : result.value[1],
+                        salario  : result.value[2],
+                    
+                    }   
+                    // console.log(datos);
+
+                    let url = '/api/datosp';
+                    await axios.post(url, datos).then(response=>{
+                        console.log(response.data);
+                        this.mensaje=response.data;
+                    });
+
+                    this.getDatos();                  
+                    toastr.success(this.mensaje);
+                    }
+                })
+            }
+        },
+        mounted() {
+            ≡
+        },
+    })
+    ```
+3. Programar el método **store** del controlador **app\Http\Controllers\ApiDatosPController.php**:
+    ```php
+    public function store(Request $request)
+    {
+        // Pruebas:
+        /* return 'datos recibidos'; */
+        /* return $request->all(); */
+        
+        $datos = new DatosP;
+        $datos->nombre = $request->nombre;
+        $datos->posicion = $request->posicion;
+        $datos->salario = $request->salario;
+        $datos->save();
+        return 'Datos guardados correctamente';
+    }
+    ```
+4. Commit Nota 08:
+    + $ git add .
+    + $ git commit -m "Commit 08: Nuevo registro"
+    + $ git push -u origin main
 
 ### Video 09. Eliminar registro
+
+
+
 ### Video 10. Editar registro
 ### Video 11. Fin del curso
 
