@@ -295,7 +295,7 @@
 ### Video 08. Nuevo registro
 + https://getbootstrap.com/docs/4.6/components/buttons/#button-tags
 + https://sweetalert2.github.io
-1. Modificar la vista **resources\views\home.blade.php** para agregar los botones para el CRUD:
+1. Modificar la vista **resources\views\home.blade.php** para agregar los botones para el CRUD y un evento clic al botón **Nuevo**:
     ```php
     @extends('layouts.app')
 
@@ -445,10 +445,91 @@
     + $ git push -u origin main
 
 ### Video 09. Eliminar registro
+1. Modificar la vista **resources\views\home.blade.php** para agregar un evento clic al botón **Elimar**:
+    ```php
+    ≡
+    <td>
+        <button type="button" class="btn btn-outline-info">Editar</button>
+        <button type="button" class="btn btn-outline-danger" @click="EliminarDato(dato)">Eliminar</button>
+    </td>
+    ≡
+    ```
+1. Crear método **EliminarDato** en el componente **public\js\vue.js**:
+    ```php
+    var app = new Vue({
+        el: '#app',
+        data: {
+            ≡''
+        },
+        methods:{
+            getDatos(){
+                ≡
+            },
+            NuevoDato(){
+                ≡
+            },
+            EliminarDato(dato){
+                console.log(dato)
 
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: true
+                })
+                
+                swalWithBootstrapButtons.fire({
+                    title: '¿Estas Seguro?',
+                    html: "Si eliminas el registro de <strong>"+ dato.nombre +"</strong>, <br>¡No podrás revertir esto!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Eliminar!',
+                    cancelButtonText: 'Cancelar!',
+                    confirmButtonColor: '#28a745',
+                    cancelButtonColor: '#d33',
+                    reverseButtons: true
+                }).then( async (result) => {
+                    if (result.value) {
+                        const url = '/api/datosp/'+dato.id;
+                        await axios.delete(url).then(response=>{
+                            console.log(response.data)
+                            this.mensaje=response.data
+                        });
 
+                        this.getDatos();                  
+                        toastr.warning(this.mensaje);
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        toastr.error('Acción Cancelada!')
+                    }
+                })
+            }
+        },
+        mounted() {
+            this.getDatos()
+        },
+    })
+    ```
+2. Programar el método **destroy** del controlador **app\Http\Controllers\ApiDatosPController.php**:
+    ```php
+    public function destroy(DatosP $datosp)
+    {
+        $datosp->delete();
+        return 'Registro eliminado correctamente!';
+    }
+    ```
+3. Commit Nota 09:
+    + $ git add .
+    + $ git commit -m "Commit 09: Eliminar registro"
+    + $ git push -u origin main
 
 ### Video 10. Editar registro
+
+
+
 ### Video 11. Fin del curso
 
 
