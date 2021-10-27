@@ -65,7 +65,7 @@
     + $ npm run dev
 9. Ejecutar las migraciones:
     + $ php artisan migrate
-10. Commit Nota 03:
+10. Commit Video 03:
     + $ git add .
     + $ git commit -m "Commit 03: Instalar laravel y el sistema de autenticación"
     + $ git push -u origin main
@@ -97,7 +97,7 @@
     + > toastr.error('Necesita digitar un valor', 'Error')
     + **Nota 1**: al ejecutar esta instrucción se deberá mostrar un mensaje en la aplicación.
     + **Nota 2**: para ver ejemplos del uso de Toastr ir a: https://codeseven.github.io/toastr/demo.html
-5. Commit Nota 04:
+5. Commit Video 04:
     + $ git add .
     + $ git commit -m "Commit 04: Instalar Toastr y aprender a usarlo"
     + $ git push -u origin main
@@ -114,7 +114,7 @@
     </head>
     ≡
     ```
-2. Commit Nota 05:
+2. Commit Video 05:
     + $ git add .
     + $ git commit -m "Commit 05: Instalar sweetalert2 y aprender a usarlo"
     + $ git push -u origin main
@@ -170,7 +170,7 @@
     ```php
     use App\DatosP;
     ```
-8. Commit Nota 06:
+8. Commit Video 06:
     + $ git add .
     + $ git commit -m "Commit 06: Crear Modelo, migración, controlador y rutas API"
     + $ git push -u origin main
@@ -287,7 +287,7 @@
     </div>
     @endsection   
     ```
-4. Commit Nota 07:
+4. Commit Video 07:
     + $ git add .
     + $ git commit -m "Commit 07: Instalar vue y axios"
     + $ git push -u origin main
@@ -439,7 +439,7 @@
         return 'Datos guardados correctamente';
     }
     ```
-4. Commit Nota 08:
+4. Commit Video 08:
     + $ git add .
     + $ git commit -m "Commit 08: Nuevo registro"
     + $ git push -u origin main
@@ -454,8 +454,8 @@
     </td>
     ≡
     ```
-1. Crear método **EliminarDato** en el componente **public\js\vue.js**:
-    ```php
+2. Crear método **EliminarDato** en el componente **public\js\vue.js**:
+    ```js
     var app = new Vue({
         el: '#app',
         data: {
@@ -513,7 +513,7 @@
         },
     })
     ```
-2. Programar el método **destroy** del controlador **app\Http\Controllers\ApiDatosPController.php**:
+3. Programar el método **destroy** del controlador **app\Http\Controllers\ApiDatosPController.php**:
     ```php
     public function destroy(DatosP $datosp)
     {
@@ -521,17 +521,103 @@
         return 'Registro eliminado correctamente!';
     }
     ```
-3. Commit Nota 09:
+4. Commit Video 09:
     + $ git add .
     + $ git commit -m "Commit 09: Eliminar registro"
     + $ git push -u origin main
 
 ### Video 10. Editar registro
+1. Modificar la vista **resources\views\home.blade.php** para agregar un evento clic al botón **Editar**:
+    ```php
+    ≡
+    <td>
+        <button type="button" class="btn btn-outline-info" @click="EditarDato(dato)">Editar</button>
+        <button type="button" class="btn btn-outline-danger" @click="EliminarDato(dato)">Eliminar</button>
+    </td>
+    ≡
+    ```
+2. Crear método **EditarDato** en el componente **public\js\vue.js**:
+    ```js
+    var app = new Vue({
+        el: '#app',
+        data: {
+            ≡
+        },
+        methods:{
+            getDatos(){
+                ≡
+            },
+            NuevoDato(){
+                ≡
+            },
+            EliminarDato(dato){
+                ≡
+            },
+            EditarDato(dato){
+                console.log(dato)
 
+                formulario = 
+                    '<div id="swal2-content" class="swal2-html-container" style="display: block;">Nombre y apellido</div>'+
+                    '<input id="nombre" name="nombre" class="swal2-input" placeholder="" type="text" style="display: flex;">'+
 
+                    '<div id="swal2-content" class="swal2-html-container" style="display: block;">Posicion de este empleado</div>'+
+                    '<select id="posicion" name="posicion" class="swal2-select" style="display: flex;"><option value="" disabled="">Selecciona una posicion</option><option value="Auditor">Auditor</option><option value="Soporte">Soporte</option><option value="Seguridad">Seguridad</option></select>'+
+
+                    '<div id="swal2-content" class="swal2-html-container" style="display: block;">Salario</div>'+
+                    '<input id="salario" name="salario" min="4" step="0.01" class="swal2-input" placeholder="" type="number" style="display: flex;">'
+
+                Swal.fire({
+                    title: 'Editar Registro',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    cancelButtonText: 'Cancelar',
+                    confirmButtonText: 'Guardar',
+                    html: formulario,
+                    focusConfirm: false,
+                    preConfirm: async () => {
+                        ultimosdatoseditados = {
+                            nombre:    document.getElementById('nombre').value,
+                            posicion:  document.getElementById('posicion').value, 
+                            salario:   document.getElementById('salario').value,            
+                        }
+
+                        const url = '/api/datosp/'+dato.id;
+                        await axios.put(url, ultimosdatoseditados).then(response=>{
+                            console.log(response.data)
+                            this.mensaje=response.data
+                        })
+                        this.getDatos();
+                        return toastr.success(this.mensaje);
+                    }
+                })
+                document.getElementById('nombre').value    = dato.nombre
+                document.getElementById('posicion').value  = dato.posicion
+                document.getElementById('salario').value   = dato.salario
+            }
+        },
+        mounted() {
+            ≡
+        },
+    })
+    ```
+3. Programar el método **update** del controlador **app\Http\Controllers\ApiDatosPController.php**:
+    ```php
+    public function update(Request $request, DatosP $datosp)
+    {
+        $datosp->nombre = $request->nombre;
+        $datosp->posicion = $request->posicion;
+        $datosp->salario = $request->salario;
+        $datosp->save();
+        return 'Datos actualizados correctamente';
+    }
+    ```
+4. Commit Video 10:
+    + $ git add .
+    + $ git commit -m "Commit 10: Editar registro"
+    + $ git push -u origin main
 
 ### Video 11. Fin del curso
-
 
 
     ≡

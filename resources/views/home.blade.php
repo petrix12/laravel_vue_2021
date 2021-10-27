@@ -33,7 +33,7 @@
                                 <td>@{{ dato.posicion }}</td>
                                 <td>@{{ dato.salario }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-outline-info">Editar</button>
+                                    <button type="button" class="btn btn-outline-info" @click="EditarDato(dato)">Editar</button>
                                     <button type="button" class="btn btn-outline-danger" @click="EliminarDato(dato)">Eliminar</button>
                                 </td>
                             </tr>
