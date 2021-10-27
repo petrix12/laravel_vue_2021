@@ -119,10 +119,65 @@
     + $ git push -u origin main
 
 ### Video 06. Crear Modelo, migración, controlador y rutas API
+1. Crear modelo **DatosP** con su migración:
+    + $ php artisan make:model DatosP -m
+2. Crear controlador tipo recurso **ApiDatosPController**:
+    + $ php artisan make:controller ApiDatosPController --resource
+3. Agregar rutas **datosp** en **routes\api.php**:
+    ```php
+    Route::resource('datosp', 'ApiDatosPController')->names('api.datosp');
+    ```
+4. Establecer los campos de la tabla **datos_p_s** en el método **up** de la migración **database\migrations\2021_10_27_004650_create_datos_p_s_table.php**:
+    ```php
+    public function up()
+    {
+        Schema::create('datos_p_s', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre');
+            $table->string('posicion');
+            $table->decimal('salario', 10, 2);
+            $table->timestamps();
+        });
+    }
+    ```
+5. Ejecutar las migraciones:
+    + $ php artisan migrate
+6. Ejecutar una Tinker:
+    + $ php artisan tinker
+    + Introducir en la terminal de tinker el siguiente código:
+        ```php
+        $datos = new App\DatosP;
+        $datos->nombre = 'Pedro Bazó';
+        $datos->posicion = 'Desarrollador Web';
+        $datos->salario = 1800;
+        $datos->save();
 
-
+        $datos = new App\DatosP;
+        $datos->nombre = 'Leticia Rodríguez';
+        $datos->posicion = 'Analista de Genealogía';
+        $datos->salario = 500;
+        $datos->save();
+        ```
+7. Programar el método **index** del controlador **app\Http\Controllers\ApiDatosPController.php**:
+    ```php
+    public function index()
+    {
+        return DatosP::get();
+    }
+    ```
+    + Importar la definición del modelo **DatosP**:
+    ```php
+    use App\DatosP;
+    ```
+8. Commit Nota 06:
+    + $ git add .
+    + $ git commit -m "Commit 06: Crear Modelo, migración, controlador y rutas API"
+    + $ git push -u origin main
 
 ### Video 07. Instalar vue y axios
+
+
+
 ### Video 08. Nuevo registro
 ### Video 09. Eliminar registro
 ### Video 10. Editar registro
