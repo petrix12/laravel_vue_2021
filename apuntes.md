@@ -618,7 +618,13 @@
     + $ git push -u origin main
 
 ### Video 11. Fin del curso
++ **Contenido**: despedida del curso.
+1. Commit Video 11:
+    + $ git add .
+    + $ git commit -m "Commit 11: Fin del curso"
+    + $ git push -u origin main
 
+## Ajustes finales:
 
     ≡
     ```php
