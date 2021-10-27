@@ -70,7 +70,7 @@
     + $ git push -u origin main
 
 ### Video 04. Instalar Toastr y aprender a usarlo
-+ [codeseven.github.io/toastr](https://codeseven.github.io/toastr)
++ https://codeseven.github.io/toastr
 1. Descargar Toastr en formato zip en https://codeseven.github.io/toastr.
 2. Descomprimir la descarga en **public\libreria\toastr**.
 3. Modificar la plantilla **resources\views\layouts\app.blade.php** para referenciar los estilos y script de Toastr:
@@ -162,7 +162,7 @@
     ```php
     public function index()
     {
-        return DatosP::get();
+        return DatosP::orderBy('id', 'desc')->get();
     }
     ```
     + Importar la definición del modelo **DatosP**:
@@ -175,10 +175,126 @@
     + $ git push -u origin main
 
 ### Video 07. Instalar vue y axios
++ https://vuejs.org/v2/guide
++ https://github.com/axios/axios
+1. Modificar la plantilla **resources\views\layouts\app.blade.php** para referenciar los estilos y secipt de Bootstrap 4.6, Vue2 y Axios:
+    ```php
+    ≡
+    <head>
+        ≡
+        <!-- Fonts -->
+        ≡
 
+        <!-- CSS Bootstrap 4.6 -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 
+        <!-- jQuery Core 3.4.1 -->
+        <script
+            src="https://code.jquery.com/jquery-3.4.1.js"
+            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+            crossorigin="anonymous">
+        </script>
+
+        <!-- JS Bootstrap 4.6 -->
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+
+        <!-- Toastr -->
+        <link href="{{ asset('libreria/toastr/toastr.scss') }}" rel="stylesheet"/>
+        <script src="{{ asset('libreria/toastr/toastr.js') }}"></script>
+
+        <!-- sweetalert2 -->
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <!-- Vue2 -->
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+        <!-- Axios -->
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    </head>
+    <body>
+        ≡
+        <!-- Scripts -->
+        <script src="{{ asset('js/vue.js') }}"></script>
+    </body>
+    </html>
+    ```
+2. Crear script para Vue **public\js\vue.js**:
+    ```php
+    var app = new Vue({
+        el: '#app',
+        data: {
+            datos: [],
+            mensaje: ''
+        },
+        methods:{
+            getDatos(){
+                const url = '/api/datosp'
+                axios.get(url).then(response => {
+                    console.log(response.data)
+                    this.datos = response.data
+                })
+            }
+        },
+        mounted() {
+            this.getDatos()
+        },
+    })
+    ```
+3. Rediseñar la vista **resources\views\home.blade.php**:
+    ```php
+    @extends('layouts.app')
+
+    @section('content')
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">{{ __('Dashboard') }}</div>
+
+                    <div class="card-body">
+                        @if (session('status'))
+                            <div class="alert alert-success" role="alert">
+                                {{ session('status') }}
+                            </div>
+                        @endif
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Posicion</th>
+                                    <th scope="col">Salario</th>
+                                    <th scope="col">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="dato in datos">
+                                    <th scope="row">@{{ dato.id }}</th>
+                                    <td>@{{ dato.nombre }}</td>
+                                    <td>@{{ dato.posicion }}</td>
+                                    <td>@{{ dato.salario }}</td>
+                                    <td>@mdo</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endsection   
+    ```
+4. Commit Nota 07:
+    + $ git add .
+    + $ git commit -m "Commit 07: Instalar vue y axios"
+    + $ git push -u origin main
 
 ### Video 08. Nuevo registro
+
+
+
 ### Video 09. Eliminar registro
 ### Video 10. Editar registro
 ### Video 11. Fin del curso

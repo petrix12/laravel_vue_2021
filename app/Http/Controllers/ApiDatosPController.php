@@ -14,7 +14,7 @@ class ApiDatosPController extends Controller
      */
     public function index()
     {
-        return DatosP::get();
+        return DatosP::orderBy('id', 'desc')->get();
     }
 
     /**
